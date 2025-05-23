@@ -11,7 +11,7 @@ using Phonebook;
 namespace Phonebook.Migrations
 {
     [DbContext(typeof(ContactsContext))]
-    [Migration("20250523004036_initialCreate")]
+    [Migration("20250523141138_initialCreate")]
     partial class initialCreate
     {
         /// <inheritdoc />
@@ -138,7 +138,7 @@ namespace Phonebook.Migrations
                             ContactId = 6,
                             CategoryId = 3,
                             ContactName = "Amy Powershell",
-                            Email = "apowershell",
+                            Email = "apowershell@email.com",
                             PhoneNumber = "410-992-3214"
                         },
                         new

@@ -135,7 +135,7 @@ namespace Phonebook.Migrations
                             ContactId = 6,
                             CategoryId = 3,
                             ContactName = "Amy Powershell",
-                            Email = "apowershell",
+                            Email = "apowershell@email.com",
                             PhoneNumber = "410-992-3214"
                         },
                         new

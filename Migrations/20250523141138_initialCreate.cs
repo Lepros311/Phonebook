@@ -68,7 +68,7 @@ namespace Phonebook.Migrations
                     { 3, 2, "Frank Mitchell", "fmitchelle@email.com", "410-492-5921" },
                     { 4, 2, "Sally Struthers", "sstruthers@email.com", "301-592-9599" },
                     { 5, 3, "Otis McBeefcake", "omcbeefcake@email.com", "202-494-5929" },
-                    { 6, 3, "Amy Powershell", "apowershell", "410-992-3214" },
+                    { 6, 3, "Amy Powershell", "apowershell@email.com", "410-992-3214" },
                     { 7, 4, "Bobby Thompson", "bthompson@email.com", "301-399-3290" },
                     { 8, 4, "Greta Shoehorn", "gshoehorn@email.com", "301-233-9942" }
                 });

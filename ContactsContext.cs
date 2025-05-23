@@ -9,7 +9,7 @@ internal class ContactsContext : DbContext
 
     public DbSet<Category> Categories { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=contactsDb;Trusted_Connection=True;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=contactsDb;Trusted_Connection=True;Initial Catalog=contactsDb");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -88,7 +88,7 @@ internal class ContactsContext : DbContext
                     ContactId = 6,
                     CategoryId = 3,
                     ContactName = "Amy Powershell",
-                    Email = "apowershell",
+                    Email = "apowershell@email.com",
                     PhoneNumber = "410-992-3214"
                 },
                 new Contact

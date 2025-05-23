@@ -2,6 +2,7 @@
 using Phonebook.Models;
 using Phonebook.Views;
 using Spectre.Console;
+using Phonebook.Services;
 
 Console.Title = "Phonebook";
 
@@ -48,4 +49,4 @@ var context = new ContactsContext();
 context.Database.EnsureDeleted();
 context.Database.EnsureCreated();
 
-
+ContactService.GetContacts();
