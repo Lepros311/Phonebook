@@ -45,8 +45,12 @@ Console.Title = "Phonebook";
 
 //Display.PrintAllContacts();
 
-var context = new ContactsContext();
-context.Database.EnsureDeleted();
-context.Database.EnsureCreated();
+//var context = new ContactsContext();
+//context.Database.EnsureDeleted();
+//context.Database.EnsureCreated();
+
+ContactService.GetContacts();
+
+ContactService.InsertContact();
 
 ContactService.GetContacts();

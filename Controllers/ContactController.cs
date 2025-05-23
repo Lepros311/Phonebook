@@ -5,9 +5,11 @@ namespace Phonebook.Controllers;
 
 internal class ContactController
 {
-    public static void AddContact()
+    public static void AddContact(Contact contact)
     {
-
+        using var db = new ContactsContext();
+        db.Add(contact);
+        db.SaveChanges();
     }
 
     public static void DeleteContact()
