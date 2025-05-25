@@ -49,8 +49,13 @@ Console.Title = "Phonebook";
 //context.Database.EnsureDeleted();
 //context.Database.EnsureCreated();
 
-ContactService.GetContacts();
+List<Contact> contacts = ContactService.GetContacts();
+UserInterface.PrintMainMenu(contacts);
+
+//contacts = ContactService.GetContacts();
+//UserInterface.ShowContactTable(contacts);
 
 ContactService.InsertContact();
 
-ContactService.GetContacts();
+//contacts = ContactService.GetContacts();
+UserInterface.ShowContactTable(contacts);

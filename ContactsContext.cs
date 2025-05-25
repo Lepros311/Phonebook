@@ -21,21 +21,27 @@ internal class ContactsContext : DbContext
                 new Category
                 {
                     CategoryId = 1,
+                    CategoryName = string.Empty
+                },
+
+                new Category
+                {
+                    CategoryId = 2,
                     CategoryName = "Friends"
                 },
                 new Category
                 {
-                    CategoryId = 2,
+                    CategoryId = 3,
                     CategoryName = "Family"
                 },
                 new Category
                 {
-                    CategoryId = 3,
+                    CategoryId = 4,
                     CategoryName = "Coworkers"
                 },
                 new Category
                 {
-                    CategoryId = 4,
+                    CategoryId = 5,
                     CategoryName = "Other"
                 }
             });
@@ -46,7 +52,7 @@ internal class ContactsContext : DbContext
                 new Contact
                 {
                     ContactId = 1,
-                    CategoryId = 1,
+                    CategoryId = 2,
                     ContactName = "Tom Smith",
                     Email = "tsmith@email.com",
                     PhoneNumber = "301-593-4929"
@@ -54,7 +60,7 @@ internal class ContactsContext : DbContext
                 new Contact
                 {
                     ContactId = 2,
-                    CategoryId = 1,
+                    CategoryId = 2,
                     ContactName = "Judy Garland",
                     Email = "jgarland@email.com",
                     PhoneNumber = "202-492-4921"
@@ -62,7 +68,7 @@ internal class ContactsContext : DbContext
                 new Contact
                 {
                     ContactId = 3,
-                    CategoryId = 2,
+                    CategoryId = 3,
                     ContactName = "Frank Mitchell",
                     Email = "fmitchelle@email.com",
                     PhoneNumber = "410-492-5921"
@@ -70,7 +76,7 @@ internal class ContactsContext : DbContext
                 new Contact
                 {
                     ContactId = 4,
-                    CategoryId = 2,
+                    CategoryId = 3,
                     ContactName = "Sally Struthers",
                     Email = "sstruthers@email.com",
                     PhoneNumber = "301-592-9599"
@@ -78,7 +84,7 @@ internal class ContactsContext : DbContext
                 new Contact
                 {
                     ContactId = 5,
-                    CategoryId = 3,
+                    CategoryId = 4,
                     ContactName = "Otis McBeefcake",
                     Email = "omcbeefcake@email.com",
                     PhoneNumber = "202-494-5929"
@@ -86,7 +92,7 @@ internal class ContactsContext : DbContext
                 new Contact
                 {
                     ContactId = 6,
-                    CategoryId = 3,
+                    CategoryId = 4,
                     ContactName = "Amy Powershell",
                     Email = "apowershell@email.com",
                     PhoneNumber = "410-992-3214"
@@ -94,7 +100,7 @@ internal class ContactsContext : DbContext
                 new Contact
                 {
                     ContactId = 7,
-                    CategoryId = 4,
+                    CategoryId = 5,
                     ContactName = "Bobby Thompson",
                     Email = "bthompson@email.com",
                     PhoneNumber = "301-399-3290"
@@ -102,7 +108,7 @@ internal class ContactsContext : DbContext
                 new Contact
                 {
                     ContactId = 8,
-                    CategoryId = 4,
+                    CategoryId = 5,
                     ContactName = "Greta Shoehorn",
                     Email = "gshoehorn@email.com",
                     PhoneNumber = "301-233-9942"

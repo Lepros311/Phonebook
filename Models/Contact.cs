@@ -1,6 +1,6 @@
 ﻿namespace Phonebook.Models;
 
-internal class Contact
+public class Contact
 {
     public int ContactId { get; set; }
 

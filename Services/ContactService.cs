@@ -7,10 +7,10 @@ namespace Phonebook.Services;
 
 internal class ContactService
 {
-    public static void GetContacts()
+    public static List<Contact> GetContacts()
     {
         List<Contact> contacts = ContactController.GetContacts();
-        UserInterface.ShowContactTable(contacts);
+        return contacts;
     }
 
     public static void InsertContact()
