@@ -13,4 +13,9 @@ public class Contact
     public int CategoryId { get; set; }
 
     public Category Category { get; set; }
+
+    public override string ToString()
+    {
+        return $"{ContactName.PadRight(25)} {PhoneNumber.PadRight(15)} {Email.PadRight(30)} {Category.CategoryName}";
+    }
 }

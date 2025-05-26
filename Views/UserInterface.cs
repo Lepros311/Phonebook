@@ -1,52 +1,69 @@
-﻿using Spectre.Console;
-using Phonebook.Models;
-using Phonebook.Controllers;
+﻿using Phonebook.Models;
+using Phonebook.Services;
+using Spectre.Console;
+using System.Net;
+using System.Numerics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Phonebook.Views;
 
 public class UserInterface
 {
-    public static Contact PrintMainMenu(List<Contact> contacts)
+    public static void PrintSelectionMainMenu()
     {
-        Console.Clear();
-
-        List<Contact> modifiedContacts = new List<Contact>
-            {
-                new Contact { ContactName = "-Add Contact-", Email = string.Empty, PhoneNumber = string.Empty, Category =  Category.GetCategoryByName(string.Empty) },
-                new Contact { ContactName = "-Filter by Category-", Email = string.Empty, PhoneNumber = string.Empty, Category =  Category.GetCategoryByName(string.Empty) },
-                new Contact { ContactName = "-Search by Name-", Email = string.Empty, PhoneNumber = string.Empty, Category =  Category.GetCategoryByName(string.Empty) },
-                new Contact { ContactName = "-Manage Categories-", Email = string.Empty, PhoneNumber = string.Empty, Category =  Category.GetCategoryByName(string.Empty) },
-                new Contact { ContactName = "-Close Phonebook-", Email = string.Empty, PhoneNumber = string.Empty, Category =  Category.GetCategoryByName(string.Empty) }
-            };
-        modifiedContacts.AddRange(contacts);
-
-        var menuChoiceOrContact = AnsiConsole.Prompt(
-            new SelectionPrompt<Contact>()
-            .Title("CONTACTS")
-            .PageSize(15)
-            .AddChoices(modifiedContacts)
-            .UseConverter(c => $"{c.ContactName.PadRight(20)}{c.PhoneNumber.PadRight(15)}{c.Email.PadRight(25)}{c.Category.CategoryName.PadRight(15)}"));
-
-        return menuChoiceOrContact;
-    }
-
-    static internal void ShowContactTable(List<Contact> contacts)
-    {
-        var table = new Table();
-        table.AddColumn("Name");
-        table.AddColumn("Email Address");
-        table.AddColumn("Phone Number");
-        table.AddColumn("Category");
-
-        foreach (var contact in contacts)
+        var isAppRunning = true;
+        while (isAppRunning)
         {
-            table.AddRow(contact.ContactName, contact.Email, contact.PhoneNumber, contact.Category.CategoryName);
+            Console.Clear();
+            var options = new[] { "View All Contacts", "View Contacts by Category", "Search Contacts by Name", "Manage Categories", "Close Phonebook" };
+
+            var mainMenuChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title("MAIN MENU")
+                .PageSize(15)
+                .AddChoices(options));
+
+            switch (mainMenuChoice)
+            {
+                case "View All Contacts":
+                    PrintSelectionContacts(ContactService.GetContacts());
+                    break;
+                case "View Contacts by Category":
+                    //ProductsMenu();
+                    break;
+                case "Search Contacts by Name":
+                    //OrdersMenu();
+                    break;
+                case "Manage Categories":
+                    //ReportService.CreateMonthlyReport();
+                    break;
+                case "Close Phonebook":
+                    Console.WriteLine("Goodbye!");
+                    isAppRunning = false;
+                    break;
+            }
         }
 
-        AnsiConsole.Write(table);
+    }
 
-        Console.Write("Press any key to continue...");
-        Console.ReadKey();
+    static internal Contact PrintSelectionContacts(List<Contact> contacts)
+    {
         Console.Clear();
+
+        Console.WriteLine("CONTACTS\n");
+
+        string nameHeader = "  Name".PadRight(25);
+        string phoneHeader = "   Phone Number".PadRight(15);
+        string emailHeader = "    Email Address".PadRight(30);
+        string categoryHeader = "     Category";
+
+        AnsiConsole.Markup($"[underline green]{nameHeader}[/][underline green]{phoneHeader}[/][underline green]{emailHeader}[/][underline green]{categoryHeader}[/]\n");
+
+        var contactChoice = AnsiConsole.Prompt(
+            new SelectionPrompt<Contact>()
+            .PageSize(10)
+            .AddChoices(contacts.Prepend(new Contact { ContactName = "[[Return to Main Menu]]", PhoneNumber = string.Empty, Email = string.Empty, Category = new Category() })));
+
+        return contactChoice;
     }
 }
