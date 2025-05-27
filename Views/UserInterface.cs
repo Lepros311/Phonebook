@@ -36,6 +36,7 @@ public class UserInterface
                     break;
                 case "Close Phonebook":
                     Console.WriteLine("Goodbye!");
+                    Thread.Sleep(2000);
                     isAppRunning = false;
                     break;
             }
@@ -88,9 +89,9 @@ public class UserInterface
 
             Console.WriteLine("CATEGORY\n");
 
-            string nameHeader = "  Name".PadRight(25);
+            string nameHeader = $"  {category}".PadRight(25);
 
-            AnsiConsole.Markup($"[underline green]{nameHeader}[/]\n");
+            AnsiConsole.Markup($"[underline yellow]{nameHeader}[/]\n");
 
             var options = new[] { "Edit Category Name", "Delete Category", "Return to Categories" };
 
@@ -104,8 +105,15 @@ public class UserInterface
                 case "[[Return to Main Menu]]":
                     isCategoryMenuRunning = false;
                     break;
-                default:
-                    //PrintSelectionCategoryMenu(categoryChoice.CategoryName);
+                case "Edit Category Name":
+                    CategoryService.UpdateCategory(category);
+                    break;
+                case "Delete Category":
+                    CategoryService.DeleteCategory(category);
+                    isCategoryMenuRunning = false;
+                    break;
+                case "Return to Categories":
+                    isCategoryMenuRunning = false;
                     break;
             }
 
