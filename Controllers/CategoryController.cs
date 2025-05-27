@@ -11,4 +11,11 @@ internal class CategoryController
         List<Category> categories = db.Categories.Include(x => x.Contacts).ToList();
         return categories;
     }
+
+    internal static void AddCategory(Category category)
+    {
+        using var db = new ContactsContext();
+        db.Add(category);
+        db.SaveChanges();
+    }
 }

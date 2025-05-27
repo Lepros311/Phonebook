@@ -22,4 +22,11 @@ internal class CategoryService
         var category = categories.Single(x => x.CategoryName == option);
         return category;
     }
+
+    internal static void InsertCategory()
+    {
+        var category = new Category();
+        category.CategoryName = AnsiConsole.Ask<string>("Category's name:");
+        CategoryController.AddCategory(category);
+    }
 }

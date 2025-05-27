@@ -1,9 +1,6 @@
 ﻿using Phonebook.Models;
 using Phonebook.Services;
 using Spectre.Console;
-using System.Net;
-using System.Numerics;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Phonebook.Views;
 
@@ -35,7 +32,7 @@ public class UserInterface
                     //OrdersMenu();
                     break;
                 case "View Categories":
-                    PrintSelectionOfCategories(CategoryService.GetCategories());
+                    PrintSelectionOfCategories();
                     break;
                 case "Close Phonebook":
                     Console.WriteLine("Goodbye!");
@@ -46,22 +43,73 @@ public class UserInterface
 
     }
 
-    static internal Category PrintSelectionOfCategories(List<Category> categories)
+    static internal void PrintSelectionOfCategories()
     {
-        Console.Clear();
+        var isCategoriesMenuRunning = true;
+        while (isCategoriesMenuRunning)
+        {
+            Console.Clear();
 
-        Console.WriteLine("CATEGORIES\n");
+            List<Category> categories = CategoryService.GetCategories();
 
-        string nameHeader = "  Name".PadRight(25);
+            Console.WriteLine("CATEGORIES\n");
 
-        AnsiConsole.Markup($"[underline green]{nameHeader}[/]\n");
+            string nameHeader = "  Name".PadRight(25);
 
-        var categoryChoice = AnsiConsole.Prompt(
-            new SelectionPrompt<Category>()
-            .PageSize(10)
-            .AddChoices(categories.Append(new Category { CategoryName = "[[Return to Main Menu]]" })));
+            AnsiConsole.Markup($"[underline green]{nameHeader}[/]\n");
 
-        return categoryChoice;
+            var categoryChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<Category>()
+                .PageSize(10)
+                .AddChoices(categories.Append(new Category { CategoryName = "[[Add New Category]]" }).Append(new Category { CategoryName = "[[Return to Main Menu]]" })));
+
+            switch (categoryChoice.CategoryName)
+            {
+                case "[[Return to Main Menu]]":
+                    isCategoriesMenuRunning = false;
+                    break;
+                case "[[Add New Category]]":
+                    CategoryService.InsertCategory();
+                    break;
+                default:
+                    PrintSelectionCategoryMenu(categoryChoice);
+                    break;
+            }
+
+        }
+    }
+
+    static internal void PrintSelectionCategoryMenu(Category category)
+    {
+        var isCategoryMenuRunning = true;
+        while (isCategoryMenuRunning)
+        {
+            Console.Clear();
+
+            Console.WriteLine("CATEGORY\n");
+
+            string nameHeader = "  Name".PadRight(25);
+
+            AnsiConsole.Markup($"[underline green]{nameHeader}[/]\n");
+
+            var options = new[] { "Edit Category Name", "Delete Category", "Return to Categories" };
+
+            var categoryActionChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .PageSize(10)
+                .AddChoices(options));
+
+            switch (categoryActionChoice)
+            {
+                case "[[Return to Main Menu]]":
+                    isCategoryMenuRunning = false;
+                    break;
+                default:
+                    //PrintSelectionCategoryMenu(categoryChoice.CategoryName);
+                    break;
+            }
+
+        }
     }
 
     static internal Contact PrintSelectionOfContacts(List<Contact> contacts)
