@@ -15,7 +15,7 @@ public class UserInterface
         while (isAppRunning)
         {
             Console.Clear();
-            var options = new[] { "View All Contacts", "View Contacts by Category", "Search Contacts by Name", "Manage Categories", "Close Phonebook" };
+            var options = new[] { "View Contacts", "View Contacts by Category", "Search Contacts by Name", "View Categories", "Close Phonebook" };
 
             var mainMenuChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -25,8 +25,8 @@ public class UserInterface
 
             switch (mainMenuChoice)
             {
-                case "View All Contacts":
-                    PrintSelectionContacts(ContactService.GetContacts());
+                case "View Contacts":
+                    PrintSelectionOfContacts(ContactService.GetContacts());
                     break;
                 case "View Contacts by Category":
                     //ProductsMenu();
@@ -34,8 +34,8 @@ public class UserInterface
                 case "Search Contacts by Name":
                     //OrdersMenu();
                     break;
-                case "Manage Categories":
-                    //ReportService.CreateMonthlyReport();
+                case "View Categories":
+                    PrintSelectionOfCategories(CategoryService.GetCategories());
                     break;
                 case "Close Phonebook":
                     Console.WriteLine("Goodbye!");
@@ -46,7 +46,25 @@ public class UserInterface
 
     }
 
-    static internal Contact PrintSelectionContacts(List<Contact> contacts)
+    static internal Category PrintSelectionOfCategories(List<Category> categories)
+    {
+        Console.Clear();
+
+        Console.WriteLine("CATEGORIES\n");
+
+        string nameHeader = "  Name".PadRight(25);
+
+        AnsiConsole.Markup($"[underline green]{nameHeader}[/]\n");
+
+        var categoryChoice = AnsiConsole.Prompt(
+            new SelectionPrompt<Category>()
+            .PageSize(10)
+            .AddChoices(categories.Append(new Category { CategoryName = "[[Return to Main Menu]]" })));
+
+        return categoryChoice;
+    }
+
+    static internal Contact PrintSelectionOfContacts(List<Contact> contacts)
     {
         Console.Clear();
 
@@ -62,7 +80,7 @@ public class UserInterface
         var contactChoice = AnsiConsole.Prompt(
             new SelectionPrompt<Contact>()
             .PageSize(10)
-            .AddChoices(contacts.Prepend(new Contact { ContactName = "[[Return to Main Menu]]", PhoneNumber = string.Empty, Email = string.Empty, Category = new Category() })));
+            .AddChoices(contacts.Append(new Contact { ContactName = "[[Return to Main Menu]]", PhoneNumber = string.Empty, Email = string.Empty, Category = new Category() })));
 
         return contactChoice;
     }

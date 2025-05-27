@@ -10,6 +10,11 @@ public class Category
 
     public List<Contact> Contacts { get; set; }
 
+    public override string ToString()
+    {
+        return $"{CategoryName.PadRight(25)}";
+    }
+
     public static Category GetCategoryByName(string name)
     {
         List<Category> categories = CategoryController.GetCategories();

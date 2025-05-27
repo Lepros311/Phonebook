@@ -6,6 +6,12 @@ namespace Phonebook.Services;
 
 internal class CategoryService
 {
+    public static List<Category> GetCategories()
+    {
+        List<Category> categories = CategoryController.GetCategories();
+        return categories;
+    }
+
     internal static Category GetCategoryOptionInput()
     {
         var categories = CategoryController.GetCategories();
