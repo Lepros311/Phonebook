@@ -12,7 +12,7 @@ public class UserInterface
         while (isAppRunning)
         {
             Console.Clear();
-            var options = new[] { "View Contacts", "View Contacts by Category", "Search Contacts by Name", "View Categories", "Close Phonebook" };
+            var options = new[] { "View & Manage Contacts", "View & Manage Categories", "Close Phonebook" };
 
             var mainMenuChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -22,16 +22,10 @@ public class UserInterface
 
             switch (mainMenuChoice)
             {
-                case "View Contacts":
-                    PrintSelectionOfContacts(ContactService.GetContacts());
+                case "View & Manage Contacts":
+                    PrintSelectionOfContacts();
                     break;
-                case "View Contacts by Category":
-                    //ProductsMenu();
-                    break;
-                case "Search Contacts by Name":
-                    //OrdersMenu();
-                    break;
-                case "View Categories":
+                case "View & Manage Categories":
                     PrintSelectionOfCategories();
                     break;
                 case "Close Phonebook":
@@ -62,14 +56,14 @@ public class UserInterface
             var categoryChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<Category>()
                 .PageSize(10)
-                .AddChoices(categories.Append(new Category { CategoryName = "[[Add New Category]]" }).Append(new Category { CategoryName = "[[Return to Main Menu]]" })));
+                .AddChoices(categories));
 
             switch (categoryChoice.CategoryName)
             {
                 case "[[Return to Main Menu]]":
                     isCategoriesMenuRunning = false;
                     break;
-                case "[[Add New Category]]":
+                case "[[Add Category]]":
                     CategoryService.InsertCategory();
                     break;
                 default:
@@ -120,24 +114,47 @@ public class UserInterface
         }
     }
 
-    static internal Contact PrintSelectionOfContacts(List<Contact> contacts)
+    static public void PrintSelectionOfContacts()
     {
-        Console.Clear();
+        var isSelectionOfContactsRunning = true;
+        while (isSelectionOfContactsRunning)
+        {
+            Console.Clear();
 
-        Console.WriteLine("CONTACTS\n");
+            List<Contact> contacts = ContactService.GetContacts();
 
-        string nameHeader = "  Name".PadRight(25);
-        string phoneHeader = "   Phone Number".PadRight(15);
-        string emailHeader = "    Email Address".PadRight(30);
-        string categoryHeader = "     Category";
+            Console.WriteLine("CONTACTS\n");
 
-        AnsiConsole.Markup($"[underline green]{nameHeader}[/][underline green]{phoneHeader}[/][underline green]{emailHeader}[/][underline green]{categoryHeader}[/]\n");
+            string nameHeader = "  Name".PadRight(25);
+            string phoneHeader = "   Phone Number".PadRight(15);
+            string emailHeader = "    Email Address".PadRight(30);
+            string categoryHeader = "     Category";
 
-        var contactChoice = AnsiConsole.Prompt(
-            new SelectionPrompt<Contact>()
-            .PageSize(10)
-            .AddChoices(contacts.Append(new Contact { ContactName = "[[Return to Main Menu]]", PhoneNumber = string.Empty, Email = string.Empty, Category = new Category() })));
+            AnsiConsole.Markup($"[underline green]{nameHeader}[/][underline green]{phoneHeader}[/][underline green]{emailHeader}[/][underline green]{categoryHeader}[/]\n");
 
-        return contactChoice;
+            List<Contact> modifiedContacts = new List<Contact>
+            {
+                new Contact { ContactName = "[[Add Contact]]", PhoneNumber = string.Empty, Email = string.Empty, Category = new Category() },
+                new Contact { ContactName = "[[Return to Main Menu]]", PhoneNumber = string.Empty, Email = string.Empty, Category = new Category() }
+            };
+            modifiedContacts.AddRange(contacts);
+
+            var contactChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<Contact>()
+                .PageSize(12)
+                .AddChoices(modifiedContacts));
+
+            switch (contactChoice.ContactName)
+            {
+                case "[[Add Contact]]":
+                    ContactService.InsertContact();
+                    break;
+                case "[[Return to Main Menu]]":
+                    isSelectionOfContactsRunning = false;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

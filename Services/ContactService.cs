@@ -1,6 +1,5 @@
 ﻿using Phonebook.Controllers;
 using Phonebook.Models;
-using Phonebook.Views;
 using Spectre.Console;
 
 namespace Phonebook.Services;
