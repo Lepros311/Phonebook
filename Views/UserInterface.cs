@@ -12,21 +12,21 @@ public class UserInterface
         while (isAppRunning)
         {
             Console.Clear();
-            var options = new[] { "View & Manage Contacts", "View & Manage Categories", "Close Phonebook" };
+            var options = new[] { "View/Manage/Interact with Contacts", "View & Manage Categories", "Close Phonebook" };
 
             var mainMenuChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("MAIN MENU")
-                .PageSize(15)
+                .PageSize(10)
                 .AddChoices(options));
 
             switch (mainMenuChoice)
             {
-                case "View & Manage Contacts":
+                case "View/Manage/Interact with Contacts":
                     PrintSelectionOfContacts();
                     break;
                 case "View & Manage Categories":
-                    PrintSelectionOfCategories();
+                    PrintSelectionCategoriesMenu();
                     break;
                 case "Close Phonebook":
                     Console.WriteLine("Goodbye!");
@@ -38,39 +38,43 @@ public class UserInterface
 
     }
 
-    static internal void PrintSelectionOfCategories()
+    static internal void PrintSelectionCategoriesMenu()
     {
         var isCategoriesMenuRunning = true;
         while (isCategoriesMenuRunning)
         {
             Console.Clear();
 
-            List<Category> categories = CategoryService.GetCategories();
+            var options = new[] { "View Categories", "Add Category", "Edit Category", "Delete Category", "Return to Main Menu" };
 
-            Console.WriteLine("CATEGORIES\n");
-
-            string nameHeader = "  Name".PadRight(25);
-
-            AnsiConsole.Markup($"[underline green]{nameHeader}[/]\n");
-
-            var categoryChoice = AnsiConsole.Prompt(
-                new SelectionPrompt<Category>()
+            var categoryMenuChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title("CATEGORIES MENU")
                 .PageSize(10)
-                .AddChoices(categories));
+                .AddChoices(options));
 
-            switch (categoryChoice.CategoryName)
+            switch (categoryMenuChoice)
             {
-                case "[[Return to Main Menu]]":
+                case "View Categories":
+                    Display.PrintCategoriesTable(CategoryService.GetCategories(), "View Categories");
+                    ReturnToPreviousMenu();
+                    break;
+                case "Add Category":
+                    CategoryService.InsertCategory();
+                    ReturnToPreviousMenu();
+                    break;
+                case "Edit Category":
+                    CategoryService.UpdateCategory();
+                    ReturnToPreviousMenu();
+                    break;
+                case "Delete Category":
+                    CategoryService.DeleteCategory();
+                    ReturnToPreviousMenu();
+                    break;
+                case "Return to Main Menu":
                     isCategoriesMenuRunning = false;
                     break;
-                case "[[Add Category]]":
-                    CategoryService.InsertCategory();
-                    break;
-                default:
-                    PrintSelectionCategoryMenu(categoryChoice);
-                    break;
             }
-
         }
     }
 
@@ -100,10 +104,10 @@ public class UserInterface
                     isCategoryMenuRunning = false;
                     break;
                 case "Edit Category Name":
-                    CategoryService.UpdateCategory(category);
+                    //CategoryService.UpdateCategory(category);
                     break;
                 case "Delete Category":
-                    CategoryService.DeleteCategory(category);
+                    //CategoryService.DeleteCategory(category);
                     isCategoryMenuRunning = false;
                     break;
                 case "Return to Categories":
@@ -156,5 +160,11 @@ public class UserInterface
                     break;
             }
         }
+    }
+
+    public static void ReturnToPreviousMenu()
+    {
+        Console.Write("\nPress any key to return to the previous menu...");
+        Console.ReadKey();
     }
 }
