@@ -86,7 +86,7 @@ public class UserInterface
         {
             Console.Clear();
 
-            var options = new[] { "View Contacts", "Add Contact", "Edit Contact", "Delete Contact", "Return to Main Menu" };
+            var options = new[] { "View Contacts", "Add Contact", "Edit Contact", "Delete Contact", "Send SMS", "Send Email", "Return to Main Menu" };
 
             var contactsMenuChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -111,6 +111,14 @@ public class UserInterface
                     break;
                 case "Delete Contact":
                     ContactService.DeleteContact();
+                    ReturnToPreviousMenu();
+                    break;
+                case "Send SMS":
+                    CommunicationService.SendSms();
+                    ReturnToPreviousMenu();
+                    break;
+                case "Send Email":
+                    CommunicationService.SendEmail();
                     ReturnToPreviousMenu();
                     break;
                 case "Return to Main Menu":

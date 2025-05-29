@@ -59,7 +59,8 @@ internal class ContactService
     internal static void DeleteContact()
     {
         Contact contact = GetContactOptionInput("Delete Contact");
-        Console.WriteLine($"  {contact}\n");
+        List<Contact> contactAsList = new List<Contact> { contact };
+        Display.PrintContactsTable(contactAsList, "Delete Contact");
 
         if (AnsiConsole.Confirm($"[yellow]Do you really want to delete {contact.ContactName}?[/]", false))
         {
