@@ -16,7 +16,7 @@ internal class Validation
 
     public static bool IsValidPhoneNumber(string phoneNumber)
     {
-        var phoneRegex = new Regex(@"^\d{3}[-.]?\d{3}[-.]?\d{4}$", RegexOptions.Compiled);
+        var phoneRegex = new Regex(@"^\d{3}-\d{3}-\d{4}$", RegexOptions.Compiled);
 
         if (string.IsNullOrWhiteSpace(phoneNumber))
             return false;

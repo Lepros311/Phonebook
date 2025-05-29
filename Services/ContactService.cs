@@ -19,8 +19,37 @@ internal class ContactService
         Contact contact = new Contact();
         Console.WriteLine();
         contact.ContactName = AnsiConsole.Ask<string>("New contact's name:");
-        contact.Email = AnsiConsole.Ask<string>("New contact's email address:");
-        contact.PhoneNumber = AnsiConsole.Ask<string>("New contact's phone number:");
+
+        bool isValidPhoneNumber;
+        do
+        {
+            contact.PhoneNumber = AnsiConsole.Ask<string>("New contact's phone number (###-###-####):");
+            if (Validation.IsValidPhoneNumber(contact.PhoneNumber))
+            {
+                isValidPhoneNumber = true;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input or format.");
+                isValidPhoneNumber = false;
+            }
+        } while (!isValidPhoneNumber);
+
+        bool isValidEmail;
+        do
+        {
+            contact.Email = AnsiConsole.Ask<string>("New contact's email address (name@domain.com):");
+            if (Validation.IsValidEmail(contact.Email))
+            {
+                isValidEmail = true;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input or format.");
+                isValidEmail = false;
+            }
+        } while (!isValidEmail);
+
         contact.CategoryId = CategoryService.GetCategoryOptionInput().CategoryId;
         ContactController.AddContact(contact);
         Display.PrintContactsTable(ContactService.GetContacts(), "Add Contact");
@@ -29,10 +58,6 @@ internal class ContactService
 
     internal static void DeleteContact()
     {
-        //var rule = new Rule($"[green]Delete Contact[/]");
-        //rule.Justification = Justify.Left;
-        //AnsiConsole.Write(rule);
-        //Console.WriteLine();
         Contact contact = GetContactOptionInput("Delete Contact");
         Console.WriteLine($"  {contact}\n");
 
@@ -83,8 +108,51 @@ internal class ContactService
         Console.WriteLine();
 
         contact.ContactName = AnsiConsole.Confirm("Update name?", false) ? AnsiConsole.Ask<string>("Contact's new name:") : contact.ContactName;
-        contact.PhoneNumber = AnsiConsole.Confirm("Update phone number?", false) ? AnsiConsole.Ask<string>("Contact's new phone number:") : contact.PhoneNumber;
-        contact.Email = AnsiConsole.Confirm("Update email address?", false) ? AnsiConsole.Ask<string>("Contact's new email address:") : contact.Email;
+
+        if (AnsiConsole.Confirm("Update phone number?", false))
+        {
+            bool isValidPhoneNumber;
+            do
+            {
+                contact.PhoneNumber = AnsiConsole.Ask<string>("Contact's new phone number (###-###-####):");
+                if (Validation.IsValidPhoneNumber(contact.PhoneNumber))
+                {
+                    isValidPhoneNumber = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input or format.");
+                    isValidPhoneNumber = false;
+                }
+            } while (!isValidPhoneNumber);
+        }
+        else
+        {
+            contact.PhoneNumber = contact.PhoneNumber;
+        }
+
+        if (AnsiConsole.Confirm("Update email address?", false))
+        {
+            bool isValidEmail;
+            do
+            {
+                contact.Email = AnsiConsole.Ask<string>("Contact's new email address (name@domain.com):");
+                if (Validation.IsValidEmail(contact.Email))
+                {
+                    isValidEmail = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input or format.");
+                    isValidEmail = false;
+                }
+            } while (!isValidEmail);
+        }
+        else
+        {
+            contact.Email = contact.Email;
+        }
+
         contact.Category = AnsiConsole.Confirm("Update category?", false) ? CategoryService.GetCategoryOptionInput() : contact.Category;
 
         ContactController.UpdateContact(contact);
