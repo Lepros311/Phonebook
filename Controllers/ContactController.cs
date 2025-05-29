@@ -12,14 +12,18 @@ internal class ContactController
         db.SaveChanges();
     }
 
-    public static void DeleteContact()
+    public static void DeleteContact(Contact contact)
     {
-
+        using var db = new ContactsContext();
+        db.Remove(contact);
+        db.SaveChanges();
     }
 
-    public static void UpdateContact()
+    public static void UpdateContact(Contact contact)
     {
-
+        using var db = new ContactsContext();
+        db.Update(contact);
+        db.SaveChanges();
     }
 
     public static List<Contact> GetContacts()

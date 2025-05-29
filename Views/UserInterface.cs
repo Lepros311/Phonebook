@@ -23,7 +23,7 @@ public class UserInterface
             switch (mainMenuChoice)
             {
                 case "View/Manage/Interact with Contacts":
-                    PrintSelectionOfContacts();
+                    PrintSelectionContactsMenu();
                     break;
                 case "View & Manage Categories":
                     PrintSelectionCategoriesMenu();
@@ -47,16 +47,17 @@ public class UserInterface
 
             var options = new[] { "View Categories", "Add Category", "Edit Category", "Delete Category", "Return to Main Menu" };
 
-            var categoryMenuChoice = AnsiConsole.Prompt(
+            var categoriesMenuChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("CATEGORIES MENU")
                 .PageSize(10)
                 .AddChoices(options));
 
-            switch (categoryMenuChoice)
+            switch (categoriesMenuChoice)
             {
                 case "View Categories":
-                    Display.PrintCategoriesTable(CategoryService.GetCategories(), "View Categories");
+                    List<Category> categories = CategoryService.GetCategories();
+                    Display.PrintCategoriesTable(categories, "View Categories");
                     ReturnToPreviousMenu();
                     break;
                 case "Add Category":
@@ -78,85 +79,42 @@ public class UserInterface
         }
     }
 
-    static internal void PrintSelectionCategoryMenu(Category category)
+    static internal void PrintSelectionContactsMenu()
     {
-        var isCategoryMenuRunning = true;
-        while (isCategoryMenuRunning)
+        var isContactsMenuRunning = true;
+        while (isContactsMenuRunning)
         {
             Console.Clear();
 
-            Console.WriteLine("CATEGORY\n");
+            var options = new[] { "View Contacts", "Add Contact", "Edit Contact", "Delete Contact", "Return to Main Menu" };
 
-            string nameHeader = $"  {category}".PadRight(25);
-
-            AnsiConsole.Markup($"[underline yellow]{nameHeader}[/]\n");
-
-            var options = new[] { "Edit Category Name", "Delete Category", "Return to Categories" };
-
-            var categoryActionChoice = AnsiConsole.Prompt(
+            var contactsMenuChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
+                .Title("CONTACTS MENU")
                 .PageSize(10)
                 .AddChoices(options));
 
-            switch (categoryActionChoice)
+            switch (contactsMenuChoice)
             {
-                case "[[Return to Main Menu]]":
-                    isCategoryMenuRunning = false;
+                case "View Contacts":
+                    List<Contact> contacts = ContactService.GetContacts();
+                    Display.PrintContactsTable(contacts, "View Contacts");
+                    ReturnToPreviousMenu();
                     break;
-                case "Edit Category Name":
-                    //CategoryService.UpdateCategory(category);
-                    break;
-                case "Delete Category":
-                    //CategoryService.DeleteCategory(category);
-                    isCategoryMenuRunning = false;
-                    break;
-                case "Return to Categories":
-                    isCategoryMenuRunning = false;
-                    break;
-            }
-
-        }
-    }
-
-    static public void PrintSelectionOfContacts()
-    {
-        var isSelectionOfContactsRunning = true;
-        while (isSelectionOfContactsRunning)
-        {
-            Console.Clear();
-
-            List<Contact> contacts = ContactService.GetContacts();
-
-            Console.WriteLine("CONTACTS\n");
-
-            string nameHeader = "  Name".PadRight(25);
-            string phoneHeader = "   Phone Number".PadRight(15);
-            string emailHeader = "    Email Address".PadRight(30);
-            string categoryHeader = "     Category";
-
-            AnsiConsole.Markup($"[underline green]{nameHeader}[/][underline green]{phoneHeader}[/][underline green]{emailHeader}[/][underline green]{categoryHeader}[/]\n");
-
-            List<Contact> modifiedContacts = new List<Contact>
-            {
-                new Contact { ContactName = "[[Add Contact]]", PhoneNumber = string.Empty, Email = string.Empty, Category = new Category() },
-                new Contact { ContactName = "[[Return to Main Menu]]", PhoneNumber = string.Empty, Email = string.Empty, Category = new Category() }
-            };
-            modifiedContacts.AddRange(contacts);
-
-            var contactChoice = AnsiConsole.Prompt(
-                new SelectionPrompt<Contact>()
-                .PageSize(12)
-                .AddChoices(modifiedContacts));
-
-            switch (contactChoice.ContactName)
-            {
-                case "[[Add Contact]]":
+                case "Add Contact":
                     ContactService.InsertContact();
+                    ReturnToPreviousMenu();
                     break;
-                case "[[Return to Main Menu]]":
-                    isSelectionOfContactsRunning = false;
+                case "Edit Contact":
+                    ContactService.UpdateContact();
+                    ReturnToPreviousMenu();
                     break;
-                default:
+                case "Delete Contact":
+                    ContactService.DeleteContact();
+                    ReturnToPreviousMenu();
+                    break;
+                case "Return to Main Menu":
+                    isContactsMenuRunning = false;
                     break;
             }
         }

@@ -5,14 +5,24 @@ namespace Phonebook.Views;
 
 internal class Display
 {
-    public static void PrintContactsTable(List<Contact> contacts)
+    public static void PrintContactsTable(List<Contact> contacts, string heading)
     {
-        var table = new Table();
-        table.AddColumn("[green]Category Name[/]");
+        Console.Clear();
+
+        var rule = new Rule($"[green]{heading}[/]");
+        rule.Justification = Justify.Left;
+        AnsiConsole.Write(rule);
+
+        var table = new Table()
+            .Border(TableBorder.Rounded)
+            .AddColumn(new TableColumn("[dodgerblue1]Contact Name[/]"))
+            .AddColumn(new TableColumn("[dodgerblue1]Phone Number[/]"))
+            .AddColumn(new TableColumn("[dodgerblue1]Email Address[/]"))
+            .AddColumn(new TableColumn("[dodgerblue1]Category[/]"));
 
         foreach (Contact contact in contacts)
         {
-            table.AddRow(contact.ToString());
+            table.AddRow(contact.ContactName, contact.PhoneNumber, contact.Email, contact.Category.ToString());
         }
 
         AnsiConsole.Write(table);

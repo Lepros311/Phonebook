@@ -16,6 +16,6 @@ public class Contact
 
     public override string ToString()
     {
-        return $"{ContactName.PadRight(25)} {PhoneNumber.PadRight(15)} {Email.PadRight(30)} {Category.CategoryName}";
+        return $"{ContactName.PadRight(25)} {PhoneNumber.PadRight(20)} {Email.PadRight(30)} {Category.CategoryName}";
     }
 }

@@ -12,7 +12,7 @@ public class Category
 
     public override string ToString()
     {
-        return $"{CategoryName.PadRight(25)}";
+        return $"{CategoryName}";
     }
 
     public static Category GetCategoryByName(string name)
