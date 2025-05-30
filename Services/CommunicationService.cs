@@ -66,7 +66,7 @@ internal class CommunicationService
         Display.PrintContactsTable(contactAsList, "Send SMS");
 
         string apiUrl = "https://textbelt.com/text";
-        string apiKey = "989ba4c86d46a5dcfd5243776cb6d9502511ef70eCJKfc8VDiRVesLMngBRsYMwQ_test";
+        string apiKey = Environment.GetEnvironmentVariable("TEXTBELT_API_KEY");
 
         Console.WriteLine("\nSMS Message (Press ENTER when finished):");
         string messageText = Console.ReadLine();
