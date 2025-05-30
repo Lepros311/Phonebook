@@ -3,6 +3,9 @@ using Phonebook.Views;
 using Spectre.Console;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Phonebook.Services;
 
@@ -57,8 +60,61 @@ internal class CommunicationService
         }
     }
 
-    public static void SendSms()
+    public static async Task SendSms()
     {
+        Contact contact = ContactService.GetContactOptionInput("Send SMS");
+        List<Contact> contactAsList = new List<Contact> { contact };
+        Display.PrintContactsTable(contactAsList, "Send SMS");
 
+        string apiUrl = "https://textbelt.com/text";
+        string apiKey = "989ba4c86d46a5dcfd5243776cb6d9502511ef70eCJKfc8VDiRVesLMngBRsYMwQ";
+
+        Console.WriteLine("\nSMS Message (Press ENTER when finished):");
+        string messageText = Console.ReadLine();
+
+        if (AnsiConsole.Confirm($"[yellow]Send SMS?[/]", false))
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    Dictionary<string, string> postData = new Dictionary<string, string>
+                    {
+                        { "phone", contact.PhoneNumber },
+                        { "message", messageText },
+                        { "key", apiKey }
+                    };
+
+                    string json = System.Text.Json.JsonSerializer.Serialize(postData);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                    string result = await response.Content.ReadAsStringAsync();
+
+                    var responseData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(result);
+                    if (responseData.ContainsKey("success") && (bool)responseData["success"])
+                    {
+                        Console.WriteLine("\nSMS sent successfully!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nError sending SMS: " + responseData["error"]);
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    Console.WriteLine($"\nHTTP Request Error: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"\nUnexpected Error: {ex.Message}");
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("\nSMS cancelled.");
+            return;
+        }
     }
 }

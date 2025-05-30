@@ -23,5 +23,4 @@ internal class Validation
 
         return phoneRegex.IsMatch(phoneNumber);
     }
-
 }
