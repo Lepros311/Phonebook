@@ -1,10 +1,6 @@
-﻿using Phonebook;
-using Phonebook.Models;
-using Phonebook.Views;
-using Spectre.Console;
-using Phonebook.Services;
+﻿using Phonebook.Views;
 
 Console.Title = "Phonebook";
 
-UserInterface.PrintSelectionMainMenu();
+await UserInterface.PrintSelectionMainMenu();
 

@@ -6,7 +6,7 @@ namespace Phonebook.Views;
 
 public class UserInterface
 {
-    public static void PrintSelectionMainMenu()
+    public static async Task PrintSelectionMainMenu()
     {
         var isAppRunning = true;
         while (isAppRunning)
@@ -23,7 +23,7 @@ public class UserInterface
             switch (mainMenuChoice)
             {
                 case "View/Manage/Interact with Contacts":
-                    PrintSelectionContactsMenu();
+                    await PrintSelectionContactsMenu();
                     break;
                 case "View & Manage Categories":
                     PrintSelectionCategoriesMenu();
@@ -79,7 +79,7 @@ public class UserInterface
         }
     }
 
-    static internal void PrintSelectionContactsMenu()
+    static internal async Task PrintSelectionContactsMenu()
     {
         var isContactsMenuRunning = true;
         while (isContactsMenuRunning)
@@ -114,7 +114,7 @@ public class UserInterface
                     ReturnToPreviousMenu();
                     break;
                 case "Send SMS":
-                    CommunicationService.SendSms();
+                    await CommunicationService.SendSms();
                     ReturnToPreviousMenu();
                     break;
                 case "Send Email":

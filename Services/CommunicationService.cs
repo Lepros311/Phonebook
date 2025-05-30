@@ -3,9 +3,8 @@ using Phonebook.Views;
 using Spectre.Console;
 using System.Net;
 using System.Net.Mail;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Phonebook.Services;
 
@@ -67,7 +66,7 @@ internal class CommunicationService
         Display.PrintContactsTable(contactAsList, "Send SMS");
 
         string apiUrl = "https://textbelt.com/text";
-        string apiKey = "989ba4c86d46a5dcfd5243776cb6d9502511ef70eCJKfc8VDiRVesLMngBRsYMwQ";
+        string apiKey = "989ba4c86d46a5dcfd5243776cb6d9502511ef70eCJKfc8VDiRVesLMngBRsYMwQ_test";
 
         Console.WriteLine("\nSMS Message (Press ENTER when finished):");
         string messageText = Console.ReadLine();
@@ -92,7 +91,7 @@ internal class CommunicationService
                     string result = await response.Content.ReadAsStringAsync();
 
                     var responseData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(result);
-                    if (responseData.ContainsKey("success") && (bool)responseData["success"])
+                    if (responseData.ContainsKey("success") && ((JsonElement)responseData["success"]).GetBoolean())
                     {
                         Console.WriteLine("\nSMS sent successfully!");
                     }
