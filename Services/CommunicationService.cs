@@ -26,7 +26,10 @@ internal class CommunicationService
         {
             using (SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587))
             {
-                smtpClient.Credentials = new NetworkCredential("lepros311@gmail.com", "hrkztlnwycnvgypc");
+                string emailAddress = Environment.GetEnvironmentVariable("EMAIL_ADDRESS");
+                string emailAppPassword = Environment.GetEnvironmentVariable("EMAIL_APP_PASSWORD");
+
+                smtpClient.Credentials = new NetworkCredential(emailAddress, emailAppPassword);
 
                 smtpClient.EnableSsl = true;
 
