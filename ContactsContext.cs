@@ -48,64 +48,64 @@ internal class ContactsContext : DbContext
                     ContactId = 1,
                     CategoryId = 1,
                     ContactName = "Tom Smith",
-                    Email = "tsmith@email.com",
-                    PhoneNumber = "301-593-4929"
+                    Email = "tsmith@example.com",
+                    PhoneNumber = "555-593-4929"
                 },
                 new Contact
                 {
                     ContactId = 2,
                     CategoryId = 1,
                     ContactName = "Judy Garland",
-                    Email = "jgarland@email.com",
-                    PhoneNumber = "202-492-4921"
+                    Email = "jgarland@example.com",
+                    PhoneNumber = "555-492-4921"
                 },
                 new Contact
                 {
                     ContactId = 3,
                     CategoryId = 2,
                     ContactName = "Frank Mitchell",
-                    Email = "fmitchelle@email.com",
-                    PhoneNumber = "410-492-5921"
+                    Email = "fmitchelle@example.com",
+                    PhoneNumber = "555-492-5921"
                 },
                 new Contact
                 {
                     ContactId = 4,
                     CategoryId = 2,
                     ContactName = "Sally Struthers",
-                    Email = "sstruthers@email.com",
-                    PhoneNumber = "301-592-9599"
+                    Email = "sstruthers@example.com",
+                    PhoneNumber = "555-592-9599"
                 },
                 new Contact
                 {
                     ContactId = 5,
                     CategoryId = 3,
                     ContactName = "Otis McBeefcake",
-                    Email = "omcbeefcake@email.com",
-                    PhoneNumber = "202-494-5929"
+                    Email = "omcbeefcake@example.com",
+                    PhoneNumber = "555-494-5929"
                 },
                 new Contact
                 {
                     ContactId = 6,
                     CategoryId = 3,
                     ContactName = "Amy Powershell",
-                    Email = "apowershell@email.com",
-                    PhoneNumber = "410-992-3214"
+                    Email = "apowershell@example.com",
+                    PhoneNumber = "555-992-3214"
                 },
                 new Contact
                 {
                     ContactId = 7,
                     CategoryId = 4,
                     ContactName = "Bobby Thompson",
-                    Email = "bthompson@email.com",
-                    PhoneNumber = "301-399-3290"
+                    Email = "bthompson@example.com",
+                    PhoneNumber = "555-399-3290"
                 },
                 new Contact
                 {
                     ContactId = 8,
                     CategoryId = 4,
                     ContactName = "Greta Shoehorn",
-                    Email = "gshoehorn@email.com",
-                    PhoneNumber = "301-233-9942"
+                    Email = "gshoehorn@example.com",
+                    PhoneNumber = "555-233-9942"
                 }
            });
     }
