@@ -16,6 +16,23 @@ internal class CommunicationService
         List<Contact> contactAsList = new List<Contact> { contact };
         Display.PrintContactsTable(contactAsList, "Send Email");
 
+        bool isValidEmail;
+        string fromEmail;
+        do
+        {
+            Console.WriteLine();
+            fromEmail = AnsiConsole.Ask<string>("From Email Address:");
+            if (Validation.IsValidEmail(fromEmail))
+            {
+                isValidEmail = true;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input or format.");
+                isValidEmail = false;
+            }
+        } while (!isValidEmail);
+
         Console.Write("\nEmail Subject: ");
         string subject = Console.ReadLine();
 
@@ -36,7 +53,7 @@ internal class CommunicationService
 
                 MailMessage mailMessage = new MailMessage
                 {
-                    From = new MailAddress("lepros311@gmail.com"),
+                    From = new MailAddress(fromEmail),
                     Subject = subject,
                     Body = body,
                     IsBodyHtml = false
